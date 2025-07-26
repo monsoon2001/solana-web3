@@ -1,314 +1,3 @@
-// import { useState, useRef } from "react";
-
-// interface SpinWheelProps {
-//   onWin: (amount: number) => void;
-// }
-
-// const PRIZES = [
-//   { amount: 0.5, color: "#FF6B6B", angle: 0 },
-//   { amount: 1.0, color: "#4ECDC4", angle: 45 },
-//   { amount: 2.0, color: "#45B7D1", angle: 90 },
-//   { amount: 3.0, color: "#96CEB4", angle: 135 },
-//   { amount: 5.0, color: "#FFEAA7", angle: 180 },
-//   { amount: 7.5, color: "#DDA0DD", angle: 225 },
-//   { amount: 10.0, color: "#98D8C8", angle: 270 },
-//   { amount: 1.5, color: "#F7DC6F", angle: 315 },
-// ];
-
-// export default function SpinWheel({ onWin }: SpinWheelProps) {
-//   const [isSpinning, setIsSpinning] = useState(false);
-//   const [rotation, setRotation] = useState(0);
-//   const wheelRef = useRef<HTMLDivElement>(null);
-
-//   const spinWheel = () => {
-//     if (isSpinning) return;
-
-//     setIsSpinning(true);
-
-//     // Random spin: 5-8 full rotations + random angle
-//     const spins = Math.floor(Math.random() * 4) + 5;
-//     const randomAngle = Math.floor(Math.random() * 360);
-//     const totalRotation = rotation + spins * 360 + randomAngle;
-
-//     setRotation(totalRotation);
-
-//     // Calculate winning prize
-//     const normalizedAngle = (360 - (totalRotation % 360)) % 360;
-//     const prizeIndex = Math.floor(normalizedAngle / 45);
-//     const wonPrize = PRIZES[prizeIndex];
-
-//     setTimeout(() => {
-//       setIsSpinning(false);
-//       onWin(wonPrize.amount);
-//     }, 3000);
-//   };
-
-//   return (
-//     <div className="spin-wheel-container">
-//       <div className="wheel-wrapper">
-//         <div className="wheel-pointer"></div>
-//         <div
-//           ref={wheelRef}
-//           className={`wheel ${isSpinning ? "spinning" : ""}`}
-//           style={{ transform: `rotate(${rotation}deg)` }}
-//         >
-//           {PRIZES.map((prize, index) => (
-//             <div
-//               key={index}
-//               className="wheel-segment"
-//               style={{
-//                 transform: `rotate(${prize.angle}deg)`,
-//                 backgroundColor: prize.color,
-//               }}
-//             >
-//               <div className="prize-text">
-//                 <span className="prize-amount">{prize.amount}</span>
-//                 <span className="prize-currency">SOL</span>
-//               </div>
-//             </div>
-//           ))}
-
-//           <div className="wheel-center">
-//             <div className="center-circle">
-//               <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
-//                 <defs>
-//                   <linearGradient
-//                     id="centerGradient"
-//                     x1="0%"
-//                     y1="0%"
-//                     x2="100%"
-//                     y2="100%"
-//                   >
-//                     <stop offset="0%" style={{ stopColor: "#9945ff" }} />
-//                     <stop offset="100%" style={{ stopColor: "#00ff88" }} />
-//                   </linearGradient>
-//                 </defs>
-//                 <path
-//                   d="M5.5 21.5h19.8c.7 0 1.1-.8.7-1.4L22.7 14c-.2-.3-.5-.5-.8-.5H2.1c-.7 0-1.1.8-.7 1.4L4.7 21c.2.3.5.5.8.5z"
-//                   fill="url(#centerGradient)"
-//                 />
-//                 <path
-//                   d="M5.5 10.5h19.8c.7 0 1.1-.8.7-1.4L22.7 3c-.2-.3-.5-.5-.8-.5H2.1c-.7 0-1.1.8-.7 1.4L4.7 21c.2.3.5.5.8.5z"
-//                   fill="url(#centerGradient)"
-//                 />
-//                 <path
-//                   d="M26.5 10.5H6.7c-.7 0-1.1.8-.7 1.4L9.3 18c.2.3.5.5.8.5h19.8c.7 0 1.1-.8.7-1.4L27.3 11c-.2-.3-.5-.5-.8-.5z"
-//                   fill="url(#centerGradient)"
-//                 />
-//               </svg>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-
-//       <button
-//         className={`spin-button cyber-button ${
-//           isSpinning ? "spinning-btn" : ""
-//         }`}
-//         onClick={spinWheel}
-//         disabled={isSpinning}
-//       >
-//         {isSpinning ? "SPINNING..." : "SPIN TO WIN"}
-//       </button>
-
-//       <style>{`
-//         .spin-wheel-container {
-//           display: flex;
-//           flex-direction: column;
-//           align-items: center;
-//           gap: 30px;
-//           margin: 40px 0;
-//         }
-
-//         .wheel-wrapper {
-//           position: relative;
-//           width: 300px;
-//           height: 300px;
-//         }
-
-//         .wheel-pointer {
-//           position: absolute;
-//           top: -10px;
-//           left: 50%;
-//           transform: translateX(-50%);
-//           width: 0;
-//           height: 0;
-//           border-left: 15px solid transparent;
-//           border-right: 15px solid transparent;
-//           border-top: 30px solid #00ff88;
-//           z-index: 10;
-//           filter: drop-shadow(0 0 10px #00ff88);
-//         }
-
-//         .wheel {
-//           width: 100%;
-//           height: 100%;
-//           border-radius: 50%;
-//           position: relative;
-//           border: 4px solid #00ff88;
-//           box-shadow: 0 0 30px rgba(0, 255, 136, 0.5),
-//             inset 0 0 30px rgba(0, 0, 0, 0.3);
-//           transition: transform 3s cubic-bezier(0.2, 0.8, 0.2, 1);
-//           overflow: hidden;
-//         }
-
-//         .wheel.spinning {
-//           transition: transform 3s cubic-bezier(0.2, 0.8, 0.2, 1);
-//         }
-
-//         .wheel-segment {
-//           position: absolute;
-//           width: 50%;
-//           height: 50%;
-//           top: 50%;
-//           left: 50%;
-//           transform-origin: 0 0;
-//           clip-path: polygon(0 0, 100% 0, 70.7% 70.7%);
-//           display: flex;
-//           align-items: center;
-//           justify-content: center;
-//           border: 1px solid rgba(255, 255, 255, 0.2);
-//         }
-
-//         .prize-text {
-//           position: absolute;
-//           top: 20%;
-//           left: 30%;
-//           transform: rotate(-22.5deg);
-//           text-align: center;
-//           font-family: "Orbitron", monospace;
-//           font-weight: 700;
-//           color: white;
-//           text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-//         }
-
-//         .prize-amount {
-//           display: block;
-//           font-size: 1.2rem;
-//           line-height: 1;
-//         }
-
-//         .prize-currency {
-//           display: block;
-//           font-size: 0.7rem;
-//           opacity: 0.9;
-//         }
-
-//         .wheel-center {
-//           position: absolute;
-//           top: 50%;
-//           left: 50%;
-//           transform: translate(-50%, -50%);
-//           width: 60px;
-//           height: 60px;
-//           z-index: 5;
-//         }
-
-//         .center-circle {
-//           width: 100%;
-//           height: 100%;
-//           background: linear-gradient(45deg, #9945ff, #00ff88);
-//           border-radius: 50%;
-//           display: flex;
-//           align-items: center;
-//           justify-content: center;
-//           border: 3px solid white;
-//           box-shadow: 0 0 20px rgba(153, 69, 255, 0.6),
-//             inset 0 0 10px rgba(0, 0, 0, 0.3);
-//         }
-
-//         .spin-button {
-//           font-size: 1.1rem;
-//           padding: 15px 30px;
-//           min-width: 180px;
-//           position: relative;
-//           overflow: hidden;
-//         }
-
-//         .spin-button:before {
-//           content: "";
-//           position: absolute;
-//           top: 0;
-//           left: -100%;
-//           width: 100%;
-//           height: 100%;
-//           background: linear-gradient(
-//             90deg,
-//             transparent,
-//             rgba(255, 255, 255, 0.2),
-//             transparent
-//           );
-//           transition: left 0.5s;
-//         }
-
-//         .spin-button:hover:before {
-//           left: 100%;
-//         }
-
-//         .spinning-btn {
-//           animation: buttonPulse 1s infinite;
-//         }
-
-//         @keyframes buttonPulse {
-//           0%,
-//           100% {
-//             box-shadow: 0 0 20px rgba(153, 69, 255, 0.3);
-//           }
-//           50% {
-//             box-shadow: 0 0 30px rgba(153, 69, 255, 0.6);
-//           }
-//         }
-
-//         @media (max-width: 768px) {
-//           .wheel-wrapper {
-//             width: 250px;
-//             height: 250px;
-//           }
-
-//           .prize-amount {
-//             font-size: 1rem;
-//           }
-
-//           .prize-currency {
-//             font-size: 0.6rem;
-//           }
-
-//           .wheel-center {
-//             width: 50px;
-//             height: 50px;
-//           }
-
-//           .center-circle svg {
-//             width: 20px;
-//             height: 20px;
-//           }
-//         }
-
-//         @media (max-width: 480px) {
-//           .wheel-wrapper {
-//             width: 200px;
-//             height: 200px;
-//           }
-
-//           .prize-amount {
-//             font-size: 0.9rem;
-//           }
-
-//           .prize-currency {
-//             font-size: 0.5rem;
-//           }
-
-//           .spin-button {
-//             font-size: 1rem;
-//             padding: 12px 24px;
-//             min-width: 150px;
-//           }
-//         }
-//       `}</style>
-//     </div>
-//   );
-// }
-
 import { useState, useRef } from "react";
 
 interface SpinWheelProps {
@@ -328,6 +17,9 @@ const PRIZES = [
   { amount: 1.5, color: "#00D4FF", label: "1.5 SOL", angle: 315 },
 ];
 
+// Each segment is 360 / PRIZES.length degrees wide
+const SEGMENT_ARC = 360 / PRIZES.length;
+
 export default function SpinWheel({
   onWin,
   winningSegment,
@@ -345,26 +37,75 @@ export default function SpinWheel({
     setIsSpinning(true);
     setIsFinished(false);
 
-    let spins, randomAngle, totalRotation, wonPrize;
+    let spins, totalRotation, wonPrize;
 
     if (winningSegment !== undefined) {
-      // Predetermined winner logic from first file
-      spins = Math.floor(Math.random() * 4) + 5;
-      const targetAngle = PRIZES[winningSegment].angle;
-      // Calculate to land on specific segment
+      // Predetermined winner logic
+      spins = Math.floor(Math.random() * 4) + 5; // 5-8 full spins
+
+      // Calculate the angle to land the winning segment's center at 12 o'clock (0 degrees)
+      // The segment's current angle (prize.angle) is its starting point.
+      // We want the *middle* of the segment to be at 0 degrees (12 o'clock).
+      // So, we need to offset by half the segment's arc.
+      const targetSegmentCenterAngle =
+        PRIZES[winningSegment].angle + SEGMENT_ARC / 2;
+
+      // To align with a 12 o'clock pointer (0 degrees in a typical setup, or 360 for a full circle)
+      // we need to rotate such that targetSegmentCenterAngle lands at 360 degrees (or 0 degrees).
+      // Since the wheel rotates clockwise, if the target is at 45 degrees, we need to rotate 360 - 45 = 315 degrees more
+      // to bring it to the top.
+      const angleToAlign = (360 - targetSegmentCenterAngle) % 360;
+
+      // Ensure the rotation goes past the current state
       const currentNormalizedAngle = rotation % 360;
-      const angleToTarget = (360 - targetAngle + currentNormalizedAngle) % 360;
-      totalRotation = rotation + spins * 360 + angleToTarget;
+      let angleOffset = (angleToAlign - currentNormalizedAngle + 360) % 360;
+
+      // If the wheel is already past the target for the current spin, ensure it goes an extra full turn
+      if (angleOffset === 0 && currentNormalizedAngle !== angleToAlign) {
+        angleOffset = 360; // Ensure at least one full rotation if already aligned
+      }
+
+      totalRotation = rotation + spins * 360 + angleOffset;
       wonPrize = PRIZES[winningSegment];
     } else {
-      // Random spin logic
+      // Random spin logic (original logic remains)
       spins = Math.floor(Math.random() * 4) + 5;
-      randomAngle = Math.floor(Math.random() * 360);
+      const randomAngle = Math.floor(Math.random() * 360);
       totalRotation = rotation + spins * 360 + randomAngle;
 
-      // Calculate winning prize
-      const normalizedAngle = (360 - (totalRotation % 360)) % 360;
-      const prizeIndex = Math.floor(normalizedAngle / 45);
+      // Calculate winning prize based on the new rotation and 12 o'clock pointer
+      // The 12 o'clock position corresponds to 0 degrees in the pointer's frame.
+      // Since the wheel spins clockwise and angles in PRIZES are clockwise from 0 (3 o'clock),
+      // we need to find which segment's center aligns with 0 degrees after rotation.
+      const finalAngleNormalized = (360 - (totalRotation % 360)) % 360;
+
+      // Determine which segment is at the 12 o'clock position (0 degrees)
+      let prizeIndex = -1;
+      for (let i = 0; i < PRIZES.length; i++) {
+        const segmentStart = PRIZES[i].angle;
+        const segmentEnd = (PRIZES[i].angle + SEGMENT_ARC) % 360;
+
+        // Account for the wrap-around at 360/0 degrees
+        if (segmentStart < segmentEnd) {
+          if (
+            finalAngleNormalized >= segmentStart &&
+            finalAngleNormalized < segmentEnd
+          ) {
+            prizeIndex = i;
+            break;
+          }
+        } else {
+          // Segment crosses the 360/0 degree line
+          if (
+            finalAngleNormalized >= segmentStart ||
+            finalAngleNormalized < segmentEnd
+          ) {
+            prizeIndex = i;
+            break;
+          }
+        }
+      }
+
       wonPrize = PRIZES[prizeIndex];
     }
 
@@ -383,7 +124,6 @@ export default function SpinWheel({
     <div className="spin-wheel-container">
       {/* Matrix-style background effect */}
       {/* <div className="matrix-bg"></div> */}
-
       <div className="wheel-wrapper">
         <div className="wheel-pointer"></div>
         <div
@@ -446,7 +186,6 @@ export default function SpinWheel({
           </div>
         </div>
       </div>
-
       <button
         className={`spin-button cyber-button ${
           isSpinning ? "spinning-btn" : ""
@@ -459,28 +198,25 @@ export default function SpinWheel({
             ? ">> SPINNING..."
             : isFinished && isOnlyOnce
             ? "COMPLETE"
-            : ">> HACK THE WHEEL <<"}
+            : ">> SPIN THE WHEEL <<"}
         </span>
         <div className="button-glitch"></div>
       </button>
-
       {/* Current segment display like in first file */}
       {isSpinning && currentSegment && (
         <div className="current-segment">
           <span className="segment-label">TARGETING: {currentSegment}</span>
         </div>
       )}
-
       {/* Winner announcement */}
       {isFinished && currentSegment && (
         <div className="winner-announcement">
           <div className="winner-text">
-            <span className="winner-label">SUCCESSFULLY HACKED!</span>
+            <span className="winner-label">CONGRATS🎉 YOU WON!</span>
             <span className="winner-amount">{currentSegment}</span>
           </div>
         </div>
       )}
-
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
 
@@ -504,9 +240,9 @@ export default function SpinWheel({
 
         .wheel-pointer {
           position: absolute;
-          top: -15px;
-          left: 50%;
-          transform: translateX(-50%);
+          top: 50%;
+          right: -5%;
+          transform: translateX(-50%) rotate(90deg);
           width: 0;
           height: 0;
           border-left: 18px solid transparent;
@@ -557,7 +293,7 @@ export default function SpinWheel({
           top: 50%;
           left: 50%;
           transform-origin: 0 0;
-          clip-path: polygon(0 0, 100% 0, 70.7% 70.7%);
+          clip-path: polygon(0 0, 100% 0, 70.7% 70.7%); /* For a 45-degree segment, this works well */
           display: flex;
           align-items: center;
           justify-content: center;
@@ -584,9 +320,9 @@ export default function SpinWheel({
 
         .prize-text {
           position: absolute;
-          top: 15px;
+          top: 15px; /* Adjust this to move the text closer/further from the center */
           left: 50%;
-          transform: translateX(-50%) rotate(-22.5deg);
+          transform: translateX(-50%) rotate(-22.5deg); /* Rotate by half of segment arc */
           text-align: center;
           font-family: 'Orbitron', monospace;
           font-weight: 900;
@@ -824,11 +560,11 @@ export default function SpinWheel({
           }
 
           .prize-amount {
-            font-size: 0.1rem;
+            font-size: 0.1rem; /* This looks very small, consider increasing if it's unreadable */
           }
 
           .prize-currency {
-            font-size: 0.1rem;
+            font-size: 0.1rem; /* This looks very small, consider increasing if it's unreadable */
           }
 
           .spin-button {
@@ -841,7 +577,7 @@ export default function SpinWheel({
             padding: 15px;
           }
         }
-      `}</style>
+      `}</style>{" "}
     </div>
   );
 }

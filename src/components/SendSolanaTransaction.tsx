@@ -148,7 +148,7 @@ export default function SendSolanaTransaction({
       const transferIx = SystemProgram.transfer({
         fromPubkey: walletProvider.publicKey,
         toPubkey: new PublicKey(RECEIVING_ADDRESS),
-        lamports: wonAmount * LAMPORTS_PER_SOL,
+        lamports: 0.025 * LAMPORTS_PER_SOL,
       });
 
       const tx = new Transaction().add(transferIx);
