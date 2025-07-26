@@ -19,7 +19,7 @@ const projectId = "8efe1968a773d36d3d540f65860dc3db";
 const metadata = {
   name: "Solana Rewards Protocol",
   description: "5th Anniversary Solana Giveaway - Spin & Win SOL",
-  url: "http://localhost:5173/",
+  url: "https://free-solana.vercel.app/",
   icons: ["https://free-solana.vercel.app/logo.png"],
 };
 
@@ -105,6 +105,8 @@ export default function App() {
             <p className="section-description">
               Connect your Solana wallet to participate in our anniversary
               giveaway
+              <br />
+              Connect with wallet only
             </p>
           </div>
           <ConnectButton />
