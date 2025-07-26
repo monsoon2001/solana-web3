@@ -497,8 +497,8 @@ export default function SpinWheel({
 
         .wheel-wrapper {
           position: relative;
-          width: 420px;
-          height: 420px;
+          width: 380px;
+          height: 380px;
           filter: drop-shadow(0 0 30px #14F195);
         }
 
@@ -601,7 +601,7 @@ export default function SpinWheel({
 
         .prize-amount {
           display: block;
-          font-size: 2.5rem !important;
+          font-size: 2rem !important;
           line-height: 1;
           text-transform: uppercase;
           letter-spacing: 0.5px;
@@ -611,7 +611,7 @@ export default function SpinWheel({
 
         .prize-currency {
           display: block;
-          font-size: 1.2rem !important;
+          font-size: 1rem !important;
           opacity: 0.9;
           font-family: 'Share Tech Mono', monospace;
           letter-spacing: 1px;
@@ -819,16 +819,16 @@ export default function SpinWheel({
 
           @media (max-width: 480px) {
           .wheel-wrapper {
-            width: 300px;
-            height: 300px;
+            width: 350px;
+            height: 350px;
           }
 
           .prize-amount {
-            font-size: 0.8rem;
+            font-size: 0.1rem;
           }
 
           .prize-currency {
-            font-size: 0.6rem;
+            font-size: 0.1rem;
           }
 
           .spin-button {
