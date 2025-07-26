@@ -14,10 +14,10 @@ const projectId = "8efe1968a773d36d3d540f65860dc3db"; // Replace with your actua
 
 // 2. Create a metadata object - optional
 const metadata = {
-  name: "AppKit Solana Example",
-  description: "Example application using AppKit with Solana",
-  url: "window.location.origin", // ⚠️ Replace with your current ngrok URL
-  icons: ["https://avatars.githubusercontent.com/u/179229932"], // Must be HTTPS
+  name: "My Solana App",
+  description: "Solana dApp on Vercel",
+  url: "https://free-solana.vercel.app", // ✅ Updated Vercel URL
+  icons: ["https://free-solana.vercel.app/logo.png"], // Host logo in /public folder
 };
 // 3. Create modal
 createAppKit({
